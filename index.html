@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+	<title>Time/Date/Week/Weather</title>
+</head>
+<body>
+<style>
+/* Some fance styling */
+body {
+	background-color: #000000;
+	color: #ffffff;
+	font-family: "Roboto", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+#wrapper {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+#time {
+	font-size: 200px;
+	text-align: center;
+}
+
+#dateweek-wrapper {
+	display: flex;
+	justify-content: center;
+}
+
+	#date {
+		font-size: 50px;
+		text-align: center;
+		margin-right: 40px;
+	}
+	#week {
+		font-size: 50px;
+		text-align: center;
+	}
+
+img {
+	display: none;
+}
+
+.tomorrow {
+	padding-top: 46px;
+}
+</style>
+
+<script>
+	// Get week
+    Date.prototype.getWeek = function() {
+        var onejan = new Date(this.getFullYear(), 0, 1);
+        return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+    }
+
+    var weekNumber = (new Date()).getWeek();
+</script>
+
+<!-- Start #wraper -->
+<div id="wrapper">
+    <div id="time"></div>
+	<div id="dateweek-wrapper">
+		<div id="date"></div>
+		<div id="week"><script>document.write("Vecka "+weekNumber); // Display week. </script></div>
+	</div>
+
+
+
+	<!-- Script for weather from tomorrow.io -->
+	<script>
+	(function(d, s, id) {
+		if (d.getElementById(id)) {
+			if (window.__TOMORROW__) {
+				window.__TOMORROW__.renderWidget();
+			}
+			return;
+			}
+			const fjs = d.getElementsByTagName(s)[0];
+			const js = d.createElement(s);
+			js.id = id;
+			js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+			fjs.parentNode.insertBefore(js, fjs);
+	})(document, 'script', 'tomorrow-sdk');
+	</script>
+
+	<!-- Div to display weather from tomorrow.io. Replace the 'data-location-id' value with the id of your city. -->
+	<div class="tomorrow" data-location-id="103536" data-language="SV" data-unit-system="METRIC" data-skin="dark" data-widget-type="upcoming" style="padding-bottom:22px;position:relative;">
+	</div>
+
+</div>
+<!-- End #wrapper -->
+
+<script>
+// create a function to update the date and time
+function updateDateTime() {
+	// create a new Date object for time
+	const now = new Date().toLocaleTimeString();
+	// create a new Date object for date
+	const now2 = new Date().toLocaleDateString();
+
+	// get the current date and time as a string
+	const currentDateTime = now.toLocaleString();
+	const currentDateTime2 = now2.toLocaleString();
+
+	// update the divs with id time and date.
+	document.querySelector('#time').textContent = currentDateTime;
+	document.querySelector('#date').textContent = currentDateTime2;
+}
+// call the updateDateTime function every second
+setInterval(updateDateTime, 1000);
+</script>
+
+</body>
+</html>

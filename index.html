@@ -10,7 +10,7 @@
 </head>
 <body>
 <style>
-/* Some fance styling */
+/* Some fancy styling */
 body {
 	background-color: #000000;
 	color: #ffffff;
@@ -115,6 +115,11 @@ function updateDateTime() {
 	// update the divs with id time and date.
 	document.querySelector('#time').textContent = currentDateTime;
 	document.querySelector('#date').textContent = currentDateTime2;
+
+	// Refresh the page when time is 00:00:01. This is to update the weather widget. You can add more specific times using else if.
+	if (currentDateTime == '00:00:01') {
+		location.reload();
+	}
 }
 // call the updateDateTime function every second
 setInterval(updateDateTime, 1000);
